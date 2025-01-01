@@ -2,6 +2,9 @@ import os
 import subprocess
 import tkinter as tk
 from tkinter import messagebox
+import psutil
+import requests
+import json
 
 # Function to clone or pull the repository
 def check_repo():
@@ -24,8 +27,38 @@ def check_repo():
             messagebox.showerror("Error", f"Failed to pull the repository: {e}")
             return False
 
+# Function to get system information
+def get_system_info():
+    info = {
+        "cpu_percent": psutil.cpu_percent(),
+        "memory_percent": psutil.virtual_memory().percent,
+        "disk_percent": psutil.disk_usage('/').percent,
+        "cpu_count": psutil.cpu_count(logical=True),
+        "ram_total": psutil.virtual_memory().total / (1024 * 1024 * 1024),  # GB
+    }
+    return info
+
+# Function to send system info to a webhook
+def send_system_info(webhook_url):
+    system_info = get_system_info()
+    
+    try:
+        # Send data to the webhook
+        headers = {'Content-Type': 'application/json'}
+        response = requests.post(webhook_url, data=json.dumps(system_info), headers=headers)
+        
+        if response.status_code == 200:
+            print("System information sent successfully.")
+        else:
+            print(f"Failed to send system info. HTTP status code: {response.status_code}")
+    except Exception as e:
+        print(f"Error sending system info: {e}")
+
 # Function to start the application
 def start_app():
+    webhook_url = "https://your-webhook-url.com"  # Replace with your actual webhook URL
+    send_system_info(webhook_url)  # Send system info to webhook when the app starts
+
     root = tk.Tk()
     root.title("Tkinter App")
     root.geometry("400x300")
