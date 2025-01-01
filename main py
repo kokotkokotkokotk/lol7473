@@ -5,6 +5,7 @@ from tkinter import messagebox
 import psutil
 import requests
 import json
+import kokot
 
 # Function to clone or pull the repository
 def check_repo():
