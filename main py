@@ -1,0 +1,57 @@
+import os
+import subprocess
+import tkinter as tk
+from tkinter import messagebox
+
+# Function to clone or pull the repository
+def check_repo():
+    repo_url = "https://github.com/your-repo-name/your-repo.git"
+    repo_path = "repo"
+
+    if not os.path.exists(repo_path):
+        # Clone the repository if it doesn't exist
+        subprocess.run(["git", "clone", repo_url, repo_path])
+        return True
+    else:
+        # Pull the latest changes if the repository exists
+        try:
+            result = subprocess.run(["git", "-C", repo_path, "pull"], capture_output=True, text=True)
+            if "Already up to date." in result.stdout:
+                return True
+            else:
+                return True
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to pull the repository: {e}")
+            return False
+
+# Function to start the application
+def start_app():
+    root = tk.Tk()
+    root.title("Tkinter App")
+    root.geometry("400x300")
+
+    label = tk.Label(root, text="App Started!", font=("Helvetica", 16))
+    label.pack(pady=20)
+
+    root.mainloop()
+
+# Main logic
+def main():
+    root = tk.Tk()
+    root.title("GitHub Dependent App")
+    root.geometry("400x300")
+
+    def on_start_click():
+        if check_repo():
+            root.destroy()
+            start_app()
+        else:
+            messagebox.showerror("Error", "Failed to fetch the repository.")
+
+    button = tk.Button(root, text="Start App", command=on_start_click, font=("Helvetica", 14))
+    button.pack(pady=50)
+
+    root.mainloop()
+
+if __name__ == "__main__":
+    main()
