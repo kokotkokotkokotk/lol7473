@@ -9,7 +9,7 @@ import kokot
 
 # Function to clone or pull the repository
 def check_repo():
-    repo_url = "https://raw.githubusercontent.com/kokotkokotkokotk/lol7473/refs/heads/main/main%20py"
+    repo_url = "https://raw.githubusercontent.com/kokotkokotkokotk/lol7473/refs/heads/main/main"
     repo_path = "repo"
 
     if not os.path.exists(repo_path):
